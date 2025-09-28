@@ -15,7 +15,7 @@ const Navitems = () => {
   };
   return (
     <ul className="flex sm:flex-row p-2 gap-3 sm:gap-10 font-medium ">
-      {navitems.map(({ href, title }) => (
+      {navitems.map(({ href, label }) => (
         <li key={href}>
           <Link
             href={href}
@@ -23,7 +23,7 @@ const Navitems = () => {
               isActive(href) ? "text-gray-100" : ""
             }`}
           >
-            {title}
+            {label}
           </Link>
         </li>
       ))}
