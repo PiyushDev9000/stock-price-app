@@ -4,15 +4,19 @@ import InputField from "@/components/Forms/InputField";
 import { CountrySelectField } from "@/components/Forms/SelectCountry";
 import SelectField from "@/components/Forms/SelectField";
 import { Button } from "@/components/ui/button";
+import { SignUpWithEmail } from "@/lib/actions/auth.actions";
 import {
   INVESTMENT_GOALS,
   PREFERRED_INDUSTRIES,
   RISK_TOLERANCE_OPTIONS,
 } from "@/lib/constants";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const SignUp = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -33,12 +37,16 @@ const SignUp = () => {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      console.log(data);
-    } catch (error) {
-      console.log(error);
+      const result = await SignUpWithEmail(data);
+      if (result.success) router.push("/");
+    } catch (e) {
+      console.error(e);
+      toast.error("Sign up failed", {
+        description:
+          e instanceof Error ? e.message : "Failed to create an account.",
+      });
     }
   };
-
   return (
     <>
       <h1 className="form-title">Sign Up & Personlize</h1>
@@ -46,7 +54,7 @@ const SignUp = () => {
         <InputField
           name="fullName"
           label="Full Name"
-          placeholder="John Doe"
+          placeholder="Enter Your Name"
           register={register}
           error={errors.fullName}
           validation={{ required: "Full Name is Required", minLength: 2 }}
