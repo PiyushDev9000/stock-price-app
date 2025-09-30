@@ -73,6 +73,13 @@ declare global {
     email: string;
   };
 
+  // User shape used by news email flows
+  type UserForNewsEmail = {
+    id: string;
+    email: string;
+    name: string;
+  };
+
   type Stock = {
     symbol: string;
     name: string;
